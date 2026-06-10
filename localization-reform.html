@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Multinational Enters a New Market</title>
+<style>
+  :root{
+    --color-text-primary:#2A2A28;
+    --color-text-secondary:#6B6A66;
+    --color-text-tertiary:#9B9A95;
+    --color-text-success:#1D9E75;
+    --color-text-warning:#B7791F;
+    --color-text-danger:#C0392B;
+    --color-background-secondary:#F0EEE9;
+    --color-background-warning:#FAEFD6;
+    --color-background-danger:#FBE4E1;
+    --border-radius-md:10px;
+    --page-bg:#FBFAF7;
+    --card-bg:#FFFFFF;
+    --border:#E6E3DC;
+    --accent-solid:#33312E;
+    --on-accent:#FFFFFF;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --color-text-primary:#ECEAE5;
+      --color-text-secondary:#A8A6A0;
+      --color-text-tertiary:#76746E;
+      --color-text-success:#5DCAA5;
+      --color-text-warning:#E3A857;
+      --color-text-danger:#E8736A;
+      --color-background-secondary:#2C2B28;
+      --color-background-warning:#3A331F;
+      --color-background-danger:#3A2522;
+      --page-bg:#1B1A18;
+      --card-bg:#242220;
+      --border:#34322E;
+      --accent-solid:#ECEAE5;
+      --on-accent:#1B1A18;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--page-bg);
+    color:var(--color-text-primary);
+    font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans",sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding:24px 16px 56px;
+  }
+  .card{
+    max-width:580px;
+    margin:0 auto;
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px 22px 26px;
+    box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 30px rgba(0,0,0,.05);
+  }
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+  button{
+    font-family:inherit;font-size:14px;
+    padding:10px 14px;border-radius:var(--border-radius-md);
+    border:1px solid var(--border);background:var(--card-bg);color:var(--color-text-primary);
+    cursor:pointer;transition:opacity .12s ease,background .12s ease;
+  }
+  button:hover{opacity:.88;}
+  button:focus-visible{outline:2px solid var(--accent-solid);outline-offset:2px;}
+  #reset{display:inline-flex;align-items:center;justify-content:center;padding:9px 11px;color:var(--color-text-secondary);}
+  #commit{width:100%;padding:13px;font-weight:500;background:var(--accent-solid);color:var(--on-accent);border-color:var(--accent-solid);display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;height:6px;border-radius:999px;
+    background:var(--color-background-secondary);outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;
+    background:var(--accent-solid);cursor:pointer;border:3px solid var(--card-bg);
+    box-shadow:0 1px 3px rgba(0,0,0,.25);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:22px;height:22px;border-radius:50%;background:var(--accent-solid);
+    cursor:pointer;border:3px solid var(--card-bg);box-shadow:0 1px 3px rgba(0,0,0,.25);
+  }
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--accent-solid);outline-offset:2px;}
+  .footer{max-width:580px;margin:18px auto 0;text-align:center;font-size:12px;color:var(--color-text-tertiary);}
+
+  .g .gl{display:flex; justify-content:space-between; font-size:13px; margin-bottom:5px; gap:8px;}
+  .g .gl .vn{font-weight:500;}
+  .g .gt{height:10px; background:var(--color-background-secondary); border-radius:999px; position:relative;}
+  .g .gf{height:100%; border-radius:999px; transition:width .1s linear; width:50%;}
+  .g .tick{position:absolute; top:-3px; width:2px; height:16px; background:var(--color-text-secondary); border-radius:1px;}
+  .g .danger{position:absolute; top:-2px; left:30%; width:2px; height:14px; background:var(--color-text-danger); opacity:.45; border-radius:1px;}
+  .badge{font-size:11px; padding:2px 8px; border-radius:999px; margin-left:6px;}
+  .badge.warn{background:var(--color-background-warning); color:var(--color-text-warning);}
+  .badge.bad{background:var(--color-background-danger); color:var(--color-text-danger);}
+  .logitem{font-size:13px; line-height:1.55; padding:8px 12px; border-radius:var(--border-radius-md); background:var(--color-background-secondary);}
+  .logevt{background:var(--color-background-warning); color:var(--color-text-warning);}
+  .logfail{background:var(--color-background-danger); color:var(--color-text-danger); font-weight:500;}
+</style>
+</head>
+<body>
+<div class="card">
+<h2 class="sr-only">A multinational enters a new market — localization reform management game. Local staff morale only declines in the home-leaning zone and only grows once localization passes 0; home-country staff mirror this. Morale decline is directional: reforming toward localization hits home staff ×1.4, reforming toward integration hits local staff ×1.4, the benefiting side only 0.3×. Morale recovers at most 5 per quarter. Morale continuously drags operating profit; below 30 triggers a three-stage crisis ladder (warning, penalty, leadership replaced and defeat). The slider is fully free. Cash 155, bankrupt at zero. Goal: survive 8 quarters and maximize cash.</h2>
+
+<div style="display:flex; gap:8px; margin-bottom:1.25rem; align-items:center; justify-content:space-between;">
+  <div style="font-size:17px; font-weight:500;">A Multinational Enters a New Market</div>
+  <button id="reset" aria-label="Restart">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 7"/><path d="M21 3v4h-4"/></svg>
+  </button>
+</div>
+
+<div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:0.25rem;">
+  <div>
+    <div style="font-size:13px; color:var(--color-text-secondary);">Cash (your score and your life — bankrupt at zero)</div>
+    <div id="cash" style="font-size:40px; font-weight:500; line-height:1.1;">155</div>
+  </div>
+  <div style="text-align:right;">
+    <div style="font-size:13px; color:var(--color-text-secondary);">Quarter</div>
+    <div id="q" style="font-size:24px; font-weight:500;">1 / 8</div>
+  </div>
+</div>
+<div id="breakdown" style="font-size:14px; margin:0 0 1rem; padding:10px 12px; background:var(--color-background-secondary); border-radius:var(--border-radius-md);">Drag the slider. Reforming right hurts home-country staff (×1.4); reforming left hurts local staff (×1.4). Morale recovers at most +5 per quarter, and local staff only warm up once you localize past 0.</div>
+<div id="warn" style="font-size:13px; margin:0 0 1.25rem; min-height:0;"></div>
+
+<div style="display:flex; justify-content:space-between; font-size:12px; color:var(--color-text-secondary); margin-bottom:4px;">
+  <span>−100 Replicate home model</span>
+  <span id="commit-lab">Now: -100</span>
+  <span>Fully localized +100</span>
+</div>
+<div style="display:flex; align-items:center; gap:12px; margin-bottom:1.5rem;">
+  <input type="range" min="-100" max="100" value="-100" step="1" id="x" style="flex:1;" />
+  <span id="x-out" style="font-size:18px; font-weight:500; min-width:46px; text-align:right;">-100</span>
+</div>
+
+<div class="g" style="margin-bottom:1rem;">
+  <div class="gl"><span>Local staff morale<span style="color:var(--color-text-tertiary)"> | &lt;30 crisis</span></span><span><span class="vn" id="v-L">50</span><span class="badge" id="badge-L"></span></span></div>
+  <div class="gt"><div class="gf" id="b-L"></div><div class="danger"></div><div class="tick" id="t-L"></div></div>
+</div>
+<div class="g" style="margin-bottom:1.5rem;">
+  <div class="gl"><span>Home-country staff morale<span style="color:var(--color-text-tertiary)"> | &lt;30 crisis</span></span><span><span class="vn" id="v-H">85</span><span class="badge" id="badge-H"></span></span></div>
+  <div class="gt"><div class="gf" id="b-H"></div><div class="danger"></div><div class="tick" id="t-H"></div></div>
+</div>
+
+<div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:6px;">Quarterly operating profit × localization level (○ current ● proposed; both ends lose money)</div>
+<div style="position:relative; width:100%; height:140px; margin-bottom:4px;">
+  <canvas id="curve" role="img" aria-label="Hump-shaped curve of operating profit vs localization level; negative at both ends, highest in the middle"></canvas>
+</div>
+<div style="display:flex; justify-content:space-between; font-size:11px; color:var(--color-text-secondary); margin-bottom:1rem;">
+  <span>Doesn't fit local · loss</span><span>Narrow profit band</span><span>Cut off from home systems · loss</span>
+</div>
+
+<button id="commit">Advance one quarter <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+<div style="height:1rem;"></div>
+<div id="log" style="display:flex; flex-direction:column; gap:8px;"></div>
+</div>
+
+<div class="footer">Single-file build · drag the slider, then advance the quarter.</div>
+
+<script>
+(function(){
+  var ARROW='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  var REFRESH='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 7"/><path d="M21 3v4h-4"/></svg>';
+
+  var QTRS=8, START=-100, START_CASH=155, PSCALE=2, FIXED=15, MPEN=0.25;
+  var DRIFT=0.3, RECOVER=5, M_LOCAL0=50, M_HOME0=85, LOW=30, LABOR=25, PEN=1.5, HURT=1.4, BEN=0.3;
+  var cfg={ca:-10, cg:45};
+  var S;
+  function newGame(){
+    S={q:1, x:START, cash:START_CASH, mL:M_LOCAL0, mH:M_HOME0, lc:0, hc:0, over:false};
+    document.getElementById('log').innerHTML='';
+    xEl.min=-100; xEl.max=100; xEl.value=START;
+    document.getElementById('commit').innerHTML='Advance one quarter '+ARROW;
+    addLog('Quarter 1: you enter the new market by replicating the home model (-100). Local staff morale 50 (they only warm up once localization passes 0), home-country staff 85. Reforming right hurts home staff, reforming left hurts local staff, morale recovers at most +5 per quarter. Cash 155 — burn through it and you go bankrupt.');
+    render();
+  }
+  function logistic(x,c,s){return 100/(1+Math.exp(-(x-c)/s));}
+  function gloss(x){return logistic(x,cfg.cg,18);}
+  function adapt(x){return logistic(x,cfg.ca,22);}
+  function opProfit(x){return PSCALE*(0.6*adapt(x)-0.5*gloss(x)-FIXED);}
+  function eqLocal(x){return 24+66*logistic(x,20,30)/100;}
+  function eqHome(x){return 24+66*(100-logistic(x,-20,30))/100;}
+  function spendOf(d){return 0.8*d+0.012*d*d;}
+  function dmgOf(d){return 0.4*d+0.005*d*d;}
+  function step(m,eq,shock){var a=Math.max(0,Math.min(100,m-shock)); var delta=eq-a; delta = delta>0 ? Math.min(delta,RECOVER) : DRIFT*delta; return Math.max(0,Math.min(100,a+delta));}
+
+  var xEl=document.getElementById('x'), xOut=document.getElementById('x-out'),
+      bd=document.getElementById('breakdown'), warnEl=document.getElementById('warn'), commitLab=document.getElementById('commit-lab');
+
+  function moraleColor(m){return m>=60?'#1D9E75':(m>=30?'#EF9F27':'#E24B4A');}
+  function localBadge(c){ if(c>=2)return['Labor dispute 2/3',' bad']; if(c==1)return['Scandal countdown 1/3',' warn']; return ['','']; }
+  function homeBadge(c){ if(c>=2)return['Mgmt exodus 2/3 · reform ×1.5',' bad']; if(c==1)return['Expat unrest 1/3',' warn']; return ['','']; }
+  function setBar(id,tickId,val,eq){
+    var b=document.getElementById(id); b.style.width=Math.max(0,Math.min(100,val))+'%'; b.style.background=moraleColor(val);
+    document.getElementById(tickId).style.left='calc('+Math.max(0,Math.min(100,eq))+'% - 1px)';
+  }
+  function setBadge(id,pair){var e=document.getElementById(id); e.textContent=pair[0]; e.className='badge'+pair[1];}
+  function shocks(px,d){ var base=dmgOf(d), dir=px-S.x; return {L:base*(dir<0?HURT:BEN), H:base*(dir>0?HURT:BEN)}; }
+
+  function render(){
+    var px=parseInt(xEl.value,10);
+    xOut.textContent=px; commitLab.textContent='Now: '+Math.round(S.x);
+    var d=Math.abs(px-S.x), sh=shocks(px,d);
+    var costMult=(S.hc>=2)?PEN:1, spend=spendOf(d)*costMult, op=opProfit(px);
+    var pL=step(S.mL,eqLocal(px),sh.L), pH=step(S.mH,eqHome(px),sh.H);
+    var eff=op-(100-Math.min(pL,pH))*MPEN;
+    var laborHit=(pL<LOW && S.lc+1===2)?LABOR:0;
+    var net=eff-spend-laborHit;
+    document.getElementById('cash').textContent=Math.round(S.cash);
+    document.getElementById('cash').style.color=S.cash>=40?'var(--color-text-primary)':(S.cash>=15?'var(--color-text-warning)':'var(--color-text-danger)');
+    document.getElementById('q').textContent=S.q+' / '+QTRS;
+    setBar('b-L','t-L',pL,eqLocal(px)); setBar('b-H','t-H',pH,eqHome(px));
+    document.getElementById('v-L').textContent=Math.round(pL)+' (equilibrium '+Math.round(eqLocal(px))+')';
+    document.getElementById('v-H').textContent=Math.round(pH)+' (equilibrium '+Math.round(eqHome(px))+')';
+    setBadge('badge-L',localBadge(S.lc)); setBadge('badge-H',homeBadge(S.hc));
+    var nc=net>=0?'var(--color-text-success)':'var(--color-text-danger)';
+    bd.innerHTML='Operating profit '+(eff>=0?'+':'')+Math.round(eff)+
+      ' | Reform spend <span style="color:var(--color-text-danger)">−'+Math.round(spend)+'</span>'+(costMult>1?' (×'+PEN+')':'')+
+      (laborHit?' | Labor dispute <span style="color:var(--color-text-danger)">−'+laborHit+'</span>':'')+
+      ' | <span style="font-weight:500;">Net this quarter <span style="color:'+nc+'">'+(net>=0?'+':'')+Math.round(net)+'</span></span>';
+    var willFail=(pL<LOW && S.lc+1>=3) || (pH<LOW && S.hc+1>=3);
+    warnEl.innerHTML = willFail ? '<span style="color:var(--color-text-danger);font-weight:500;">⚠ After this move that group hits 3 straight quarters below 30 — HQ replaces leadership, game over.</span>' : '';
+    drawCurve(px);
+  }
+  var cv=document.getElementById('curve'), ctx;
+  function setupCv(){var rc=cv.parentElement.getBoundingClientRect(), dr=window.devicePixelRatio||1;
+    cv.width=rc.width*dr; cv.height=rc.height*dr; ctx=cv.getContext('2d'); ctx.setTransform(dr,0,0,dr,0,0); cv._w=rc.width; cv._h=rc.height;}
+  function drawCurve(px){
+    if(!ctx)return; var W=cv._w,H=cv._h,pad=8, lo=-60, hi=90;
+    var dark=matchMedia('(prefers-color-scheme: dark)').matches;
+    var axis=dark?'rgba(255,255,255,.18)':'rgba(0,0,0,.15)', line=dark?'#5DCAA5':'#0F6E56';
+    function Y(v){return (H-pad)-((v-lo)/(hi-lo))*(H-2*pad);}
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle=axis; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(W,Y(0)); ctx.stroke();
+    ctx.strokeStyle=line; ctx.lineWidth=2; ctx.beginPath();
+    for(var i=0;i<=200;i++){var x=-100+i, X=(x+100)/200*W, yy=Y(opProfit(x)); if(i===0)ctx.moveTo(X,yy); else ctx.lineTo(X,yy);}
+    ctx.stroke();
+    function dot(x,fill){var X=(x+100)/200*W, yy=Y(opProfit(x)); ctx.beginPath(); ctx.arc(X,yy,4,0,2*Math.PI);
+      if(fill){ctx.fillStyle=line; ctx.fill();} else {ctx.fillStyle=dark?'#242220':'#fff'; ctx.fill(); ctx.strokeStyle=line; ctx.lineWidth=2; ctx.stroke();}}
+    dot(S.x,false); dot(px,true);
+  }
+  function addLog(t,cls){var l=document.getElementById('log'); var x=document.createElement('div'); x.className='logitem'+(cls?(' '+cls):''); x.textContent=t;
+    l.insertBefore(x,l.firstChild); while(l.children.length>8) l.removeChild(l.lastChild);}
+
+  function commit(){
+    if(S.over){ newGame(); return; }
+    var px=parseInt(xEl.value,10), d=Math.abs(px-S.x), sh=shocks(px,d);
+    var costMult=(S.hc>=2)?PEN:1, spend=spendOf(d)*costMult, op=opProfit(px);
+    var nL=step(S.mL,eqLocal(px),sh.L), nH=step(S.mH,eqHome(px),sh.H);
+    var eff=op-(100-Math.min(nL,nH))*MPEN, net=eff-spend, evs=[], fail=null;
+    if(nL<LOW){ S.lc++;
+      if(S.lc===1) evs.push('〔Event〕Local staff morale is slumping — team sentiment is flashing red; fix it or trouble brews.');
+      else if(S.lc===2){ net-=LABOR; evs.push('〔Event〕Labor dispute — local staff walk out; compensation and losses −'+LABOR+'.'); }
+      else if(S.lc>=3) fail='Amid the scandal, HQ replaces the country head.';
+    } else S.lc=0;
+    if(nH<LOW){ S.hc++;
+      if(S.hc===1) evs.push('〔Event〕Expat staff discontent — home-country team morale warning.');
+      else if(S.hc===2) evs.push('〔Event〕Middle-management exodus — reform stalls; further reform costs ×'+PEN+'.');
+      else if(S.hc>=3) fail=fail||'Amid internal backlash, HQ replaces the country head.';
+    } else S.hc=0;
+    S.x=px; S.mL=nL; S.mH=nH; S.cash+=net;
+    addLog('Q'+S.q+': moved to '+Math.round(S.x)+'. Operating '+(eff>=0?'+':'')+Math.round(eff)+', reform −'+Math.round(spend)+(costMult>1?' (×'+PEN+')':'')+
+      ', local '+Math.round(nL)+' / home '+Math.round(nH)+', net '+(net>=0?'+':'')+Math.round(net)+', cash '+Math.round(S.cash)+'.');
+    evs.forEach(function(e){addLog(e,'logevt');});
+    if(fail){ S.over=true; addLog('〔Defeat〕'+fail, 'logfail'); return end(); }
+    if(S.cash<0){ S.over=true; addLog('〔Bankruptcy〕Cash ran out before you reached profitability.', 'logfail'); return end(); }
+    if(S.q>=QTRS){ S.over=true;
+      addLog('〔Survived〕8 quarters done, cash remaining '+Math.round(S.cash)+'. '+(S.cash>185?'Both sides kept content — excellent pacing.':(S.cash>START_CASH?'Survived and grew the cash.':'Survived, but overall shrinking.')));
+      return end(); }
+    S.q++; xEl.value=S.x; render();
+  }
+  function end(){ document.getElementById('commit').innerHTML='Restart '+REFRESH; render(); }
+
+  xEl.addEventListener('input', render);
+  document.getElementById('commit').addEventListener('click', commit);
+  document.getElementById('reset').addEventListener('click', function(){ newGame(); });
+  window.addEventListener('resize', function(){ setupCv(); render(); });
+  setupCv(); newGame();
+})();
+</script>
+</body>
+</html>
